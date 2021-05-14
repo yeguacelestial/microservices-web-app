@@ -7,11 +7,13 @@ from rest_framework.views import APIView
 from products.models import Product, User
 from products.serializers import ProductSerializer
 
+from products.producer import publish
 
 class ProductViewSet(viewsets.ViewSet):
     def list(self, request):  # /api/v1/products
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
+        publish()
         return Response(serializer.data)
 
     def create(self, request):  # /api/v1/products
