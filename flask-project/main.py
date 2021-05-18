@@ -1,3 +1,5 @@
+import requests
+
 from dataclasses import dataclass
 
 from flask import Flask, jsonify
@@ -35,6 +37,13 @@ class ProductUser(db.Model):
 @app.route('/api/v1/products')
 def index():
     return jsonify(Product.query.all())
+
+
+@app.route('/api/v1/products/<int:id>/like', methods=['POST'])
+def like(id):
+    req = requests.get('http://docker.for.linux.localhost:8000/api/v1/user')
+    return jsonify(req.json())
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

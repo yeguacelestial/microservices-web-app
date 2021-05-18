@@ -9,6 +9,8 @@ services:
       - 8001:5000 # localhostPort:dockerfilePort
     volumes:
       - .:/app
+    extra_hosts:
+      - "docker.for.linux.localhost:$DOCKERHOST"
   
   queue:
     build:
