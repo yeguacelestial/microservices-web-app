@@ -2,7 +2,7 @@ import requests
 
 from dataclasses import dataclass
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
@@ -42,7 +42,19 @@ def index():
 @app.route('/api/v1/products/<int:id>/like', methods=['POST'])
 def like(id):
     req = requests.get('http://docker.for.linux.localhost:8000/api/v1/user')
-    return jsonify(req.json())
+    json = req.json()
+
+    try:
+        product_user = ProductUser(user_id=json['id'], product_id=id)
+        db.session.add(product_user)
+        db.session.commit()
+
+        # event
+
+    except:
+        abort(400, 'You already liked this product')
+
+    return jsonify({'message':'success'})
 
 
 if __name__ == '__main__':
