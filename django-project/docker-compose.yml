@@ -4,10 +4,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    command: 'python manage.py runserver 0.0.0.0:8000'
     ports:
       - 8000:8000 # localhostPort:dockerfilePort
     volumes:
       - .:/app
+  
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'python consumer.py'
+    depends_on:
+      - db
     
   db:
     image: mysql:5.7.22
@@ -20,4 +29,4 @@ services:
     volumes:
       - .dbdata:/var/lib/mysql
     ports:
-      - 33066:3306
+      - 33067:3306
