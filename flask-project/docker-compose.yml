@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/app
     extra_hosts:
-      - "docker.for.linux.localhost:$DOCKERHOST"
+      - "docker.for.linux.localhost:172.17.0.1"
   
   queue:
     build:
